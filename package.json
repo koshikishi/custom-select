@@ -1,0 +1,17 @@
+{
+  "name": "custom-select",
+  "version": "0.1.0",
+  "description": "The simple pet project for custom HTML <select> creation",
+  "homepage": "https://koshikishi.github.io/custom-select",
+  "bugs": {
+    "url": "https://github.com/koshikishi/custom-select/issues"
+  },
+  "license": "MIT",
+  "author": "Anton Northern",
+  "type": "module",
+  "repository": "github:koshikishi/custom-select",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true
+}
