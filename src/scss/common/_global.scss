@@ -1,0 +1,66 @@
+@use "variables" as *;
+
+html {
+  min-height: 100vh;
+  min-height: 100dvh;
+  font: 16px/1.2 var(--font-primary);
+}
+
+body {
+  min-width: var(--width-mobile);
+  margin: 0;
+  color: var(--color-text);
+  text-size-adjust: 100%;
+  background-color: var(--color-background);
+  -webkit-tap-highlight-color: transparent;
+}
+
+header {
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+
+main {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: var(--color-foreground);
+  box-shadow: 10px 10px var(--color-shadow);
+
+  @media (width >= $viewport-tablet) {
+    margin-bottom: 25px;
+  }
+}
+
+section {
+  &:not(:last-child) {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 3px dashed var(--color-gray-2);
+  }
+}
+
+h1 {
+  margin: 0;
+  font-variant: small-caps;
+  text-align: center;
+  text-shadow: 2px 2px var(--color-shadow);
+}
+
+h2,
+p {
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+a {
+  color: var(--color-tertiary);
+  text-decoration: none;
+
+  &:focus-visible {
+    outline-color: var(--color-outline);
+  }
+}
+
+code {
+  color: var(--color-tertiary);
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="The simple pet project for custom HTML &lt;select&gt; creation">
+    <title>Custom Select</title>
+    <link rel="stylesheet" href="css/style.min.css">
+    <script src="js/main.min.js" defer></script>
+  </head>
+  <body>
+    <header class="container">
+      <h1>Custom Select</h1>
+    </header>
+    <main class="container">
+      <section>
+        <h2>Classic <code>&lt;select&gt;</code></h2>
+        <p>This is how native <code>&lt;select&gt;</code> looks like by default in our browser.</p>
+        <div class="grid">
+          <div class="block block--center">
+            <p>Simple <code>&lt;select&gt;</code></p>
+            <div class="block__main">
+              <select name="select-simple">
+                <optgroup label="Cats">
+                  <option>American Shorthair</option>
+                  <option>British Shorthair</option>
+                  <option>Maine Coon</option>
+                  <option>Persian cat</option>
+                  <option>Siamese cat</option>
+                </optgroup>
+                <optgroup label="Dogs">
+                  <option>Dobermann</option>
+                  <option>German Shepherd</option>
+                  <option>Jack Russell Terrier</option>
+                  <option>Pug</option>
+                  <option>Siberian Husky</option>
+                </optgroup>
+                <optgroup label="Parrots">
+                  <option>Ara</option>
+                  <option>Budgerigar</option>
+                  <option>Cockatoo</option>
+                  <option>Grey parrot</option>
+                  <option>Lovebird</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+          <div class="block block--center">
+            <p>Multiple <code>&lt;select&gt;</code></p>
+            <div class="block__main">
+              <select name="select-multiple" multiple>
+                <optgroup label="Cats">
+                  <option>American Shorthair</option>
+                  <option>British Shorthair</option>
+                  <option>Maine Coon</option>
+                  <option>Persian cat</option>
+                  <option>Siamese cat</option>
+                </optgroup>
+                <optgroup label="Dogs">
+                  <option>Dobermann</option>
+                  <option>German Shepherd</option>
+                  <option>Jack Russell Terrier</option>
+                  <option>Pug</option>
+                  <option>Siberian Husky</option>
+                </optgroup>
+                <optgroup label="Parrots">
+                  <option>Ara</option>
+                  <option>Budgerigar</option>
+                  <option>Cockatoo</option>
+                  <option>Grey parrot</option>
+                  <option>Lovebird</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2>Styled classic <code>&lt;select&gt;</code></h2>
+        <p>That is how far styling a non-customizable<a href="https://developer.mozilla.org/docs/Learn_web_development/Extensions/Forms/Customizable_select" title="Read more about modern customizable &lt;select&gt;" target="_blank" rel="noreferrer">*</a> <code>&lt;select&gt;</code> with CSS can get us.</p>
+        <div class="grid">
+          <div class="block">
+            <p>Simple <code>&lt;select&gt;</code></p>
+            <div class="block__main">
+              <label for="select-styled">What is your favorite animal?</label>
+              <select class="select-styled" id="select-styled" name="select-styled">
+                <option>Cat</option>
+                <option>Dog</option>
+                <option>Parrot</option>
+                <option>Fish</option>
+                <option>Hamster</option>
+                <option>Rat</option>
+                <option>Turtle</option>
+                <option>Spider</option>
+                <option>Dragon</option>
+              </select>
+            </div>
+          </div>
+          <div class="block">
+            <p><code>&lt;select&gt;</code> with multiple selectable options</p>
+            <div class="block__main">
+              <label for="select-styled-multiple">What are your favorite animals?</label>
+              <select class="select-styled" id="select-styled-multiple" name="select-styled-multiple" multiple>
+                <option>Cat</option>
+                <option>Dog</option>
+                <option>Parrot</option>
+                <option>Fish</option>
+                <option>Hamster</option>
+                <option>Rat</option>
+                <option>Turtle</option>
+                <option>Spider</option>
+                <option>Dragon</option>
+              </select>
+            </div>
+          </div>
+          <div class="block">
+            <p><code>&lt;select&gt;</code> with grouped options</p>
+            <div class="block__main">
+              <label for="select-styled-optgroup">Choose your pet:</label>
+              <select class="select-styled" id="select-styled-optgroup" name="select-styled-optgroup">
+                <optgroup label="Cats">
+                  <option>American Shorthair</option>
+                  <option>British Shorthair</option>
+                  <option>Maine Coon</option>
+                  <option>Persian cat</option>
+                  <option>Siamese cat</option>
+                </optgroup>
+                <optgroup label="Dogs">
+                  <option>Dobermann</option>
+                  <option>German Shepherd</option>
+                  <option>Jack Russell Terrier</option>
+                  <option>Pug</option>
+                  <option>Siberian Husky</option>
+                </optgroup>
+                <optgroup label="Parrots">
+                  <option>Ara</option>
+                  <option>Budgerigar</option>
+                  <option>Cockatoo</option>
+                  <option>Grey parrot</option>
+                  <option>Lovebird</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+          <div class="block">
+            <p>Multiple <code>&lt;select&gt;</code> with grouped options</p>
+            <div class="block__main">
+              <label for="select-styled-optgroup-multiple">Choose your pets:</label>
+              <select class="select-styled" id="select-styled-optgroup-multiple" name="select-styled-optgroup-multiple" multiple>
+                <optgroup label="Cats">
+                  <option>American Shorthair</option>
+                  <option>British Shorthair</option>
+                  <option>Maine Coon</option>
+                  <option>Persian cat</option>
+                  <option>Siamese cat</option>
+                </optgroup>
+                <optgroup label="Dogs">
+                  <option>Dobermann</option>
+                  <option>German Shepherd</option>
+                  <option>Jack Russell Terrier</option>
+                  <option>Pug</option>
+                  <option>Siberian Husky</option>
+                </optgroup>
+                <optgroup label="Parrots">
+                  <option>Ara</option>
+                  <option>Budgerigar</option>
+                  <option>Cockatoo</option>
+                  <option>Grey parrot</option>
+                  <option>Lovebird</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

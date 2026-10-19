@@ -1,0 +1,35 @@
+// Viewports
+$viewport-mobile: 320px;
+$viewport-tablet: 720px;
+
+:root {
+  // Settings
+  --width-mobile: #{$viewport-mobile};
+  --width-tablet: #{$viewport-tablet};
+
+  // Fonts
+  --font-primary: system-ui;
+
+  // Colors
+  --color-black: #000000;
+  --color-light: #fffbf6;
+  --color-dark: #383b3c;
+  --color-gray-1: #d3d7da;
+  --color-gray-2: #808588;
+  --color-primary-1: #fff4e6;
+  --color-primary-2: #ffe4c0;
+  --color-primary-3: #ffd49a;
+  --color-primary-4: #ff9c19;
+  --color-secondary: #e4f1fb;
+  --color-tertiary: #9090d9;
+  --color-background: var(--color-gray-1);
+  --color-foreground: var(--color-light);
+  --color-text: var(--color-dark);
+  --color-input-background: var(--color-primary-1);
+  --color-border: var(--color-dark);
+  --color-shadow: var(--color-gray-2);
+  --color-outline: var(--color-primary-4);
+
+  // Images
+  --image-arrow: url('data:image/svg+xml,%3Csvg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 0H10L5 9z" fill="%23383b3c"/%3E%3C/svg%3E');
+}

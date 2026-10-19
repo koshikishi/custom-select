@@ -1,0 +1,8 @@
+.grid {
+  display: grid;
+  gap: 10px;
+
+  @media (width >= 540px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

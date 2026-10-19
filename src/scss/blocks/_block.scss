@@ -1,0 +1,31 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: var(--color-secondary);
+
+  &--center {
+    .block__main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+    }
+  }
+
+  p {
+    margin-bottom: 10px;
+    padding-bottom: 3px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--color-light);
+  }
+
+  label {
+    display: block;
+    padding-bottom: 5px;
+  }
+}
+
+.block__main {
+  margin-bottom: auto;
+}
