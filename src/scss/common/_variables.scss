@@ -30,6 +30,20 @@ $viewport-tablet: 720px;
   --color-shadow: var(--color-gray-2);
   --color-outline: var(--color-primary-4);
 
+  // Select colors
+  --color-select-text: fieldtext;
+  --color-select-background: field;
+  --color-select-border: buttonborder;
+  --color-select-hover: var(--color-dark);
+  --color-select-focus: selecteditem;
+  --color-select-option-hover: var(--color-gray-1);
+  --color-select-option-selected: selecteditem;
+  --color-select-option-selected-text: selecteditemtext;
+  --color-select-disabled: graytext;
+  --color-select-arrow: fieldtext;
+  --color-select-scrollbar-thumb: threedface;
+  --color-select-scrollbar-track: scrollbar;
+
   // Images
   --image-arrow: url('data:image/svg+xml,%3Csvg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 0H10L5 9z" fill="%23383b3c"/%3E%3C/svg%3E');
 }
