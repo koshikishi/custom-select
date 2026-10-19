@@ -1,11 +1,6 @@
-import SelectView from './view/select-view.js';
-import OptionView from './view/option-view.js';
-import {render} from './render.js';
+import SelectPresenter from './presenter/select-presenter.js';
 
 const selectContainer = document.querySelector('.select-container');
+const selectPresenter = new SelectPresenter({selectContainer});
 
-const selectComponent = new SelectView();
-const optionComponent = new OptionView();
-
-render(selectComponent, selectContainer);
-render(optionComponent, selectComponent.element.lastElementChild);
+selectPresenter.init();
