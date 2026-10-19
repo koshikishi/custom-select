@@ -38,4 +38,21 @@ const render = (component, container, position = RenderPosition.BEFOREEND) => {
   container.insertAdjacentElement(position, component.element);
 };
 
-export {RenderPosition, createElement, render};
+/**
+ * Removes a component.
+ * @param {AbstractView} component - the component to remove.
+ */
+const remove = (component) => {
+  if (!component) {
+    return;
+  }
+
+  if (!(component instanceof AbstractView)) {
+    throw new Error('Can remove only components');
+  }
+
+  component.element.remove();
+  component.removeElement();
+};
+
+export {RenderPosition, createElement, render, remove};

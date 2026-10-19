@@ -36,13 +36,21 @@ const createSelectTemplate = (select) => {
 
 export default class SelectView extends AbstractView {
   #select = null;
+  #handleClick = null;
 
-  constructor({select}) {
+  constructor({select, onClick}) {
     super();
     this.#select = select;
+    this.#handleClick = onClick;
+
+    this.element.addEventListener('click', this.#clickHandler);
   }
 
   get template() {
     return createSelectTemplate(this.#select);
   }
+
+  #clickHandler = () => {
+    this.#handleClick();
+  };
 }

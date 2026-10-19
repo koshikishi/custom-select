@@ -1,4 +1,4 @@
-import {render} from '../framework/render.js';
+import {render, remove} from '../framework/render.js';
 import SelectView from '../view/select-view.js';
 import OptGroupView from '../view/optgroup-view.js';
 import OptionView from '../view/option-view.js';
@@ -23,6 +23,19 @@ export default class SelectPresenter {
   init() {
     this.#renderSelect();
   }
+
+  #handleSelectClick = () => {
+    if (this.select.isDisabled) {
+      return;
+    }
+
+    if (!this.select.isMultiple) {
+      this.select.isOpened = !this.select.isOpened;
+
+      this.#clearSelect();
+      this.#renderSelect();
+    }
+  };
 
   #renderOption(option) {
     const optGroup = option.optGroup;
@@ -49,9 +62,17 @@ export default class SelectPresenter {
     options.forEach((option) => this.#renderOption(option));
   }
 
+  #clearSelect() {
+    this.#optGroupComponents.clear();
+    this.#optionComponents.clear();
+
+    remove(this.#selectComponent);
+  }
+
   #renderSelect() {
     this.#selectComponent = new SelectView({
       select: this.select,
+      onClick: this.#handleSelectClick,
     });
 
     render(this.#selectComponent, this.#selectContainer);
