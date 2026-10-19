@@ -1,12 +1,29 @@
 import {createElement} from '../render.js';
 
-const createOptionTemplate = () =>
-  `<li class="custom-select__option custom-select__option--selected" id="select-option-rnd103" tabindex="-1" role="option" aria-selected="true">
-    <div class="custom-select__option-label">Cat</div>
+const createOptionTemplate = (option) => {
+  const {id, label, isSelected, isDisabled} = option;
+
+  const selectedClassName = isSelected ? 'custom-select__option--selected' : '';
+  const disabledClassName = isDisabled ? 'custom-select__option--disabled' : '';
+
+  return `<li
+    class="custom-select__option ${selectedClassName} ${disabledClassName}"
+    id="select-option-${id}"
+    role="option"
+    ${isDisabled ? 'aria-disabled="true"' : 'tabindex="-1"'}
+    aria-selected="${isSelected.toString()}"
+  >
+    <div class="custom-select__option-label">${label}</div>
   </li>`;
+};
 
 export default class OptionView {
+  #option = null;
   #element = null;
+
+  constructor({option}) {
+    this.#option = option;
+  }
 
   get element() {
     if (!this.#element) {
@@ -17,7 +34,7 @@ export default class OptionView {
   }
 
   get template() {
-    return createOptionTemplate();
+    return createOptionTemplate(this.#option);
   }
 
   removeElement() {

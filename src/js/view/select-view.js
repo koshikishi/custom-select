@@ -1,25 +1,46 @@
 import {createElement} from '../render.js';
 
-const createSelectTemplate = () =>
-  `<div
-    class="custom-select"
-    tabindex="0"
-    role="combobox"
-    aria-disabled="false"
-    aria-expanded="false"
-    aria-required="false"
-    aria-activedescendant=""
-    aria-controls="select-datalist-rnd102"
-    aria-labelledby="custom-select-rnd101"
+const createSelectTemplate = (select) => {
+  const {
+    id,
+    lastSelectedOption,
+    lastFocusedOption,
+    classList,
+    tabIndex,
+    isOpened,
+    isMultiple,
+    isDisabled,
+    isRequired,
+  } = select;
+
+  const openedClassName = isOpened ? 'custom-select--opened' : '';
+  const multipleClassName = isMultiple ? 'custom-select--multiple' : '';
+  const disabledClassName = isDisabled ? 'custom-select--disabled' : '';
+  const requiredClassName = isRequired ? 'custom-select--required' : '';
+
+  return `<div
+    class="custom-select ${classList.join(' ')} ${openedClassName} ${multipleClassName} ${disabledClassName} ${requiredClassName}"
+    role="${isMultiple ? 'listbox' : 'combobox'}"
+    ${isDisabled ? 'aria-disabled="true"' : `tabindex="${tabIndex}"`}
+    ${isMultiple ? 'aria-multiselectable="true"' : `aria-expanded="${(isOpened).toString()}" aria-controls="select-datalist-${id}"`}
+    ${isRequired ? 'aria-required="true"' : ''}
+    ${lastFocusedOption && (isMultiple || isOpened) ? `aria-activedescendant="select-option-${lastFocusedOption.id}"` : ''}
+    aria-labelledby="custom-select-${id}"
   >
-    <div class="custom-select__header">
-      <div class="custom-select__header-label">Cat</div>
-    </div>
-    <ul class="custom-select__datalist" id="select-datalist-rnd102" tabindex="-1" role="listbox"></ul>
+    ${isMultiple ? '' : `<div class="custom-select__header">
+      <div class="custom-select__header-label">${lastSelectedOption?.label ?? ''}</div>
+    </div>`}
+    <ul class="custom-select__datalist" id="select-datalist-${id}" tabindex="-1" role="${isMultiple ? 'none' : 'listbox'}"></ul>
   </div>`;
+};
 
 export default class SelectView {
+  #select = null;
   #element = null;
+
+  constructor({select}) {
+    this.#select = select;
+  }
 
   get element() {
     if (!this.#element) {
@@ -30,7 +51,7 @@ export default class SelectView {
   }
 
   get template() {
-    return createSelectTemplate();
+    return createSelectTemplate(this.#select);
   }
 
   removeElement() {

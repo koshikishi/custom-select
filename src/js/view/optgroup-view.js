@@ -1,13 +1,23 @@
 import {createElement} from '../render.js';
 
-const createOptGroupTemplate = () =>
-  `<li class="custom-select__optgroup" role="group" aria-labelledby="select-optgroup-rnd303">
-    <div class="custom-select__optgroup-label" id="select-optgroup-rnd303" aria-hidden="true">Cats</div>
+const createOptGroupTemplate = (optGroup) => {
+  const {id, label, isDisabled} = optGroup;
+
+  const disabledClassName = isDisabled ? 'custom-select__optgroup--disabled' : '';
+
+  return `<li class="custom-select__optgroup ${disabledClassName}" role="group" ${isDisabled ? 'aria-disabled="true"' : ''} aria-labelledby="select-optgroup-${id}">
+    <div class="custom-select__optgroup-label" id="select-optgroup-${id}" aria-hidden="true">${label}</div>
     <ul class="custom-select__optgroup-list" role="none"></ul>
   </li>`;
+};
 
 export default class OptGroupView {
+  #optGroup = null;
   #element = null;
+
+  constructor({optGroup}) {
+    this.#optGroup = optGroup;
+  }
 
   get element() {
     if (!this.#element) {
@@ -18,7 +28,7 @@ export default class OptGroupView {
   }
 
   get template() {
-    return createOptGroupTemplate();
+    return createOptGroupTemplate(this.#optGroup);
   }
 
   removeElement() {
