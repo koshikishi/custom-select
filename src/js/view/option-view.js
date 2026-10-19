@@ -1,4 +1,4 @@
-import {createElement} from '../framework/render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createOptionTemplate = (option) => {
   const {id, label, isSelected, isDisabled} = option;
@@ -17,27 +17,15 @@ const createOptionTemplate = (option) => {
   </li>`;
 };
 
-export default class OptionView {
+export default class OptionView extends AbstractView {
   #option = null;
-  #element = null;
 
   constructor({option}) {
+    super();
     this.#option = option;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createOptionTemplate(this.#option);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

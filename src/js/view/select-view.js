@@ -1,4 +1,4 @@
-import {createElement} from '../framework/render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createSelectTemplate = (select) => {
   const {
@@ -34,27 +34,15 @@ const createSelectTemplate = (select) => {
   </div>`;
 };
 
-export default class SelectView {
+export default class SelectView extends AbstractView {
   #select = null;
-  #element = null;
 
   constructor({select}) {
+    super();
     this.#select = select;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createSelectTemplate(this.#select);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

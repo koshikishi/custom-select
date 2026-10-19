@@ -1,4 +1,4 @@
-import {createElement} from '../framework/render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createOptGroupTemplate = (optGroup) => {
   const {id, label, isDisabled} = optGroup;
@@ -11,27 +11,15 @@ const createOptGroupTemplate = (optGroup) => {
   </li>`;
 };
 
-export default class OptGroupView {
+export default class OptGroupView extends AbstractView {
   #optGroup = null;
-  #element = null;
 
   constructor({optGroup}) {
+    super();
     this.#optGroup = optGroup;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createOptGroupTemplate(this.#optGroup);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
