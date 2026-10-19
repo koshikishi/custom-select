@@ -1,3 +1,5 @@
+import AbstractView from './view/abstract-view.js';
+
 const RenderPosition = {
   BEFOREBEGIN: 'beforebegin',
   AFTERBEGIN: 'afterbegin',
@@ -20,11 +22,15 @@ const createElement = (template) => {
 
 /**
  * Renders a component.
- * @param {HTMLElement} component - the component to render.
+ * @param {AbstractView} component - the component to render.
  * @param {HTMLElement} container - the element where the component will be rendered.
  * @param {string} [position=beforeend] - the position of the component relative to the container.
  */
 const render = (component, container, position = RenderPosition.BEFOREEND) => {
+  if (!(component instanceof AbstractView)) {
+    throw new Error('Can render only components');
+  }
+
   if (!container) {
     throw new Error('Container element does not exist');
   }

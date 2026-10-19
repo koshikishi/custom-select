@@ -1,7 +1,7 @@
+import {render} from '../framework/render.js';
 import SelectView from '../view/select-view.js';
 import OptGroupView from '../view/optgroup-view.js';
 import OptionView from '../view/option-view.js';
-import {render} from '../render.js';
 
 export default class SelectPresenter {
   #selectContainer = null;

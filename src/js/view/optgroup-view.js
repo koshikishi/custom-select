@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import {createElement} from '../framework/render.js';
 
 const createOptGroupTemplate = (optGroup) => {
   const {id, label, isDisabled} = optGroup;

@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import {createElement} from '../framework/render.js';
 
 const createOptionTemplate = (option) => {
   const {id, label, isSelected, isDisabled} = option;
