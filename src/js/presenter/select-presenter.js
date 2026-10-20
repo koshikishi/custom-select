@@ -2,6 +2,7 @@ import {render, remove} from '../framework/render.js';
 import SelectView from '../view/select-view.js';
 import OptGroupView from '../view/optgroup-view.js';
 import OptionView from '../view/option-view.js';
+import {getClosestOption} from '../utils/element.js';
 
 export default class SelectPresenter {
   #selectContainer = null;
@@ -24,12 +25,28 @@ export default class SelectPresenter {
     this.#renderSelect();
   }
 
-  #handleSelectClick = () => {
+  #handleClick = (evt) => {
     if (this.select.isDisabled) {
       return;
     }
 
-    if (!this.select.isMultiple) {
+    const clickedOptionElement = getClosestOption(evt.target, evt.currentTarget);
+
+    if (clickedOptionElement) {
+      const clickedOption = this.select.options.find((option) => option.id === Number(clickedOptionElement.dataset.id));
+      const updatedOption = {...clickedOption, isSelected: true};
+
+      this.select.options = this.select.options.map((option) => option.id === updatedOption.id ? updatedOption : {...option, isSelected: false});
+      this.select.selectedOptions = [updatedOption];
+      this.select.lastSelectedOption = updatedOption;
+      this.select.lastFocusedOption = updatedOption;
+      this.select.value = updatedOption.value;
+    }
+
+    if (this.select.isMultiple) {
+      this.#optionComponents.forEach((component, id) => component.updateElement(this.select.options.find((option) => option.id === id)));
+      this.#selectComponent.updateElement(this.select);
+    } else {
       this.select.isOpened = !this.select.isOpened;
 
       this.#clearSelect();
@@ -47,7 +64,7 @@ export default class SelectPresenter {
     const optionComponent = new OptionView({option});
 
     render(optionComponent, optGroup ? this.#optGroupComponents.get(optGroup).element.lastElementChild : this.#selectComponent.element.lastElementChild);
-    this.#optionComponents.set(option, optionComponent);
+    this.#optionComponents.set(option.id, optionComponent);
   }
 
   #renderOptGroup(optGroup) {
@@ -72,7 +89,7 @@ export default class SelectPresenter {
   #renderSelect() {
     this.#selectComponent = new SelectView({
       select: this.select,
-      onClick: this.#handleSelectClick,
+      onClick: this.#handleClick,
     });
 
     render(this.#selectComponent, this.#selectContainer);

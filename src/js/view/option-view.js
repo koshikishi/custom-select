@@ -9,9 +9,10 @@ const createOptionTemplate = (option) => {
   return `<li
     class="custom-select__option ${selectedClassName} ${disabledClassName}"
     id="select-option-${id}"
+    data-id="${id}"
     role="option"
-    ${isDisabled ? 'aria-disabled="true"' : 'tabindex="-1"'}
-    aria-selected="${isSelected.toString()}"
+    ${isDisabled ? 'aria-disabled="true"' : ''}
+    aria-selected="${String(isSelected)}"
   >
     <div class="custom-select__option-label">${label}</div>
   </li>`;
@@ -27,5 +28,16 @@ export default class OptionView extends AbstractView {
 
   get template() {
     return createOptionTemplate(this.#option);
+  }
+
+  updateElement(update) {
+    const prevElement = this.element;
+
+    this.removeElement();
+    this.#option = update;
+
+    const newElement = this.element;
+
+    prevElement.replaceWith(newElement);
   }
 }
