@@ -5,8 +5,8 @@ const createOptGroupTemplate = (optGroup) => {
 
   const disabledClassName = isDisabled ? 'custom-select__optgroup--disabled' : '';
 
-  return `<li class="custom-select__optgroup ${disabledClassName}" role="group" ${isDisabled ? 'aria-disabled="true"' : ''} aria-labelledby="select-optgroup-${id}">
-    <div class="custom-select__optgroup-label" id="select-optgroup-${id}" aria-hidden="true">${label}</div>
+  return `<li class="custom-select__optgroup ${disabledClassName}" role="group" ${isDisabled ? 'aria-disabled="true"' : ''} aria-labelledby="${id}">
+    <div class="custom-select__optgroup-label" id="${id}" aria-hidden="true">${label}</div>
     <ul class="custom-select__optgroup-list" role="none"></ul>
   </li>`;
 };

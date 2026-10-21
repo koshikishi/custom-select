@@ -29,7 +29,7 @@ export default class SelectPresenter {
   }
 
   #handleClick = (evt) => {
-    if (this.select.isDisabled || evt.target.classList.contains('custom-select__optgroup-label') || getClosestDisabled(evt.target, evt.currentTarget)) {
+    if (this.select.isDisabled || this.#optGroupComponents.has(evt.target.id) || getClosestDisabled(evt.target, evt.currentTarget)) {
       return;
     }
 
@@ -116,20 +116,20 @@ export default class SelectPresenter {
   #renderOption(option) {
     const optGroup = option.optGroup;
 
-    if (optGroup && !this.#optGroupComponents.has(optGroup)) {
+    if (optGroup && !this.#optGroupComponents.has(optGroup.id)) {
       this.#renderOptGroup(optGroup);
     }
 
     const optionComponent = new OptionView({option});
 
-    render(optionComponent, optGroup ? this.#optGroupComponents.get(optGroup).element.lastElementChild : this.#selectComponent.element.lastElementChild);
+    render(optionComponent, optGroup ? this.#optGroupComponents.get(optGroup.id).element.lastElementChild : this.#selectComponent.element.lastElementChild);
     this.#optionComponents.push(optionComponent);
   }
 
   #renderOptGroup(optGroup) {
     const optGroupComponent = new OptGroupView({optGroup});
 
-    this.#optGroupComponents.set(optGroup, optGroupComponent);
+    this.#optGroupComponents.set(optGroup.id, optGroupComponent);
 
     render(optGroupComponent, this.#selectComponent.element.lastElementChild);
   }

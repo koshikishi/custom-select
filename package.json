@@ -22,6 +22,9 @@
     "lint:styles": "stylelint src/scss/**/*.scss",
     "lint:scripts": "eslint src/js/"
   },
+  "dependencies": {
+    "nanoid": "^6.0.2"
+  },
   "devDependencies": {
     "@firefoxic/bemlint": "^6.0.5",
     "@koshikishi/eslint-config": "^5.1.2",

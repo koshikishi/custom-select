@@ -1,6 +1,8 @@
+import {nanoid} from 'nanoid';
+
 const selectOptions = [
   {
-    id: 1,
+    id: `select-option-${nanoid()}`,
     index: 0,
     optGroup: null,
     label: 'Cat',
@@ -8,7 +10,7 @@ const selectOptions = [
     isDisabled: false,
   },
   {
-    id: 2,
+    id: `select-option-${nanoid()}`,
     index: 1,
     optGroup: null,
     label: 'Dog',
@@ -16,7 +18,7 @@ const selectOptions = [
     isDisabled: false,
   },
   {
-    id: 3,
+    id: `select-option-${nanoid()}`,
     index: 2,
     optGroup: null,
     label: 'Parrot',
@@ -24,7 +26,7 @@ const selectOptions = [
     isDisabled: false,
   },
   {
-    id: 4,
+    id: `select-option-${nanoid()}`,
     index: 3,
     optGroup: null,
     label: 'Fish',
@@ -32,7 +34,7 @@ const selectOptions = [
     isDisabled: false,
   },
   {
-    id: 5,
+    id: `select-option-${nanoid()}`,
     index: 4,
     optGroup: null,
     label: 'Hamster',
@@ -42,20 +44,20 @@ const selectOptions = [
 ];
 
 const catsOptGroup = {
-  id: 1,
+  id: `select-optgroup-${nanoid()}`,
   label: 'Cats',
   isDisabled: false,
 };
 
 const dogsOptGroup = {
-  id: 2,
+  id: `select-optgroup-${nanoid()}`,
   label: 'Dogs',
   isDisabled: false,
 };
 
 const selectOptGroupOptions = [
   {
-    id: 6,
+    id: `select-option-${nanoid()}`,
     index: 0,
     optGroup: catsOptGroup,
     label: 'American Shorthair',
@@ -63,7 +65,7 @@ const selectOptGroupOptions = [
     isDisabled: false,
   },
   {
-    id: 7,
+    id: `select-option-${nanoid()}`,
     index: 1,
     optGroup: catsOptGroup,
     label: 'British Shorthair',
@@ -71,7 +73,7 @@ const selectOptGroupOptions = [
     isDisabled: false,
   },
   {
-    id: 8,
+    id: `select-option-${nanoid()}`,
     index: 2,
     optGroup: catsOptGroup,
     label: 'Maine Coon',
@@ -79,7 +81,7 @@ const selectOptGroupOptions = [
     isDisabled: false,
   },
   {
-    id: 9,
+    id: `select-option-${nanoid()}`,
     index: 3,
     optGroup: dogsOptGroup,
     label: 'Dobermann',
@@ -87,7 +89,7 @@ const selectOptGroupOptions = [
     isDisabled: false,
   },
   {
-    id: 10,
+    id: `select-option-${nanoid()}`,
     index: 4,
     optGroup: dogsOptGroup,
     label: 'German Shepherd',
@@ -97,7 +99,7 @@ const selectOptGroupOptions = [
 ];
 
 const mockSelect = {
-  id: 1,
+  id: `custom-select-${nanoid()}`,
   options: selectOptions,
   selectedOptions: new Set([selectOptions[0]]),
   selectedIndex: 0,
@@ -112,8 +114,8 @@ const mockSelect = {
 };
 
 const mockSelectMultiple = {
-  id: 2,
-  options: selectOptions.map((option) => ({...option, id: option.id + 10, isSelected: false})),
+  id: `custom-select-${nanoid()}`,
+  options: selectOptions.map((option) => ({...option, id: `select-option-${nanoid()}`, isSelected: false})),
   selectedOptions: new Set(),
   selectedIndex: -1,
   activeDescendant: null,
@@ -127,7 +129,7 @@ const mockSelectMultiple = {
 };
 
 const mockSelectOptGroup = {
-  id: 3,
+  id: `custom-select-${nanoid()}`,
   options: selectOptGroupOptions,
   selectedOptions: new Set([selectOptGroupOptions[0]]),
   selectedIndex: 0,
@@ -142,8 +144,8 @@ const mockSelectOptGroup = {
 };
 
 const mockSelectOptGroupMultiple = {
-  id: 4,
-  options: selectOptGroupOptions.map((option) => ({...option, id: option.id + 10, isSelected: false})),
+  id: `custom-select-${nanoid()}`,
+  options: selectOptGroupOptions.map((option) => ({...option, id: `select-option-${nanoid()}`, isSelected: false})),
   selectedOptions: new Set(),
   selectedIndex: -1,
   activeDescendant: null,

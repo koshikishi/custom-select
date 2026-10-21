@@ -8,7 +8,7 @@ const createOptionTemplate = (option) => {
 
   return `<li
     class="custom-select__option ${selectedClassName} ${disabledClassName}"
-    id="select-option-${id}"
+    id="${id}"
     data-index="${index}"
     role="option"
     ${isDisabled ? 'aria-disabled="true"' : 'tabindex="-1"'}
