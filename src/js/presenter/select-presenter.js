@@ -2,7 +2,8 @@ import {render, remove} from '../framework/render.js';
 import SelectView from '../view/select-view.js';
 import OptGroupView from '../view/optgroup-view.js';
 import OptionView from '../view/option-view.js';
-import {getClosestOption} from '../utils/element.js';
+import {getClosestOption, getClosestDisabled} from '../utils/element.js';
+import {UserAction, UpdateType} from '../const.js';
 
 export default class SelectPresenter {
   #selectContainer = null;
@@ -10,11 +11,13 @@ export default class SelectPresenter {
 
   #selectComponent = null;
   #optGroupComponents = new Map();
-  #optionComponents = new Map();
+  #optionComponents = [];
 
   constructor({selectContainer, selectModel}) {
     this.#selectContainer = selectContainer;
     this.#selectModel = selectModel;
+
+    this.#selectModel.addObserver(this.#handleModelEvent);
   }
 
   get select() {
@@ -26,33 +29,89 @@ export default class SelectPresenter {
   }
 
   #handleClick = (evt) => {
-    if (this.select.isDisabled) {
+    if (this.select.isDisabled || evt.target.classList.contains('custom-select__optgroup-label') || getClosestDisabled(evt.target, evt.currentTarget)) {
       return;
     }
 
-    const clickedOptionElement = getClosestOption(evt.target, evt.currentTarget);
+    const clickedOption = getClosestOption(evt.target, evt.currentTarget);
 
-    if (clickedOptionElement) {
-      const clickedOption = this.select.options.find((option) => option.id === Number(clickedOptionElement.dataset.id));
-      const updatedOption = {...clickedOption, isSelected: true};
+    if (clickedOption) {
+      const option = this.select.options[Number(clickedOption.dataset.index)];
 
-      this.select.options = this.select.options.map((option) => option.id === updatedOption.id ? updatedOption : {...option, isSelected: false});
-      this.select.selectedOptions = [updatedOption];
-      this.select.lastSelectedOption = updatedOption;
-      this.select.lastFocusedOption = updatedOption;
-      this.select.value = updatedOption.value;
+      this.#handleViewAction(UserAction.SET_SELECTED, this.select.isMultiple ? UpdateType.MINOR : UpdateType.NONE, {
+        selectedOptions: this.#getSelectedOptions(evt, option),
+        activeDescendant: option,
+        selectedIndex: (this.select.isMultiple && evt.shiftKey && this.select.selectedIndex !== -1) ? this.select.selectedIndex : option.index,
+      });
     }
 
-    if (this.select.isMultiple) {
-      this.#optionComponents.forEach((component, id) => component.updateElement(this.select.options.find((option) => option.id === id)));
-      this.#selectComponent.updateElement(this.select);
-    } else {
-      this.select.isOpened = !this.select.isOpened;
-
-      this.#clearSelect();
-      this.#renderSelect();
+    if (!this.select.isMultiple) {
+      this.#handleViewAction(UserAction.TOGGLE_SELECT, UpdateType.MAJOR);
     }
   };
+
+  #handleViewAction = (actionType, updateType, update) => {
+    switch (actionType) {
+      case UserAction.SET_SELECTED:
+        this.#selectModel.setSelected(updateType, update);
+
+        break;
+      case UserAction.TOGGLE_SELECT:
+        this.#selectModel.toggleSelect(updateType);
+
+        break;
+    }
+  };
+
+  #handleModelEvent = (updateType, data) => {
+    switch (updateType) {
+      case UpdateType.NONE:
+        break;
+      case UpdateType.MINOR:
+        this.#optionComponents.forEach((component, index) => component.updateElement(this.select.options[index]));
+        this.#selectComponent.updateElement(data);
+
+        break;
+      case UpdateType.MAJOR:
+        this.#clearSelect();
+        this.#renderSelect();
+
+        if (this.select.isOpened) {
+          this.#optionComponents[this.select.activeDescendant.index].element.focus();
+
+          return;
+        }
+
+        this.#selectComponent.element.focus();
+
+        break;
+    }
+  };
+
+  #getSelectedOptions(evt, option) {
+    if (this.select.isMultiple && evt.ctrlKey) {
+      const selectedOptions = new Set(this.select.selectedOptions);
+
+      if (selectedOptions.has(option)) {
+        selectedOptions.delete(option);
+      } else {
+        selectedOptions.add(option);
+      }
+
+      return selectedOptions;
+    }
+
+    if (this.select.isMultiple && evt.shiftKey) {
+      const selectedIndex = (this.select.selectedIndex === -1) ? option.index : this.select.selectedIndex;
+      const selectionStart = Math.min(selectedIndex, option.index);
+      const selectionEnd = Math.max(selectedIndex, option.index) + 1;
+      const selectedOptions = new Set(this.select.options.slice(selectionStart, selectionEnd).filter(({isDisabled}) => !isDisabled));
+
+      return selectedOptions;
+    }
+
+    return new Set([option]);
+  }
 
   #renderOption(option) {
     const optGroup = option.optGroup;
@@ -64,7 +123,7 @@ export default class SelectPresenter {
     const optionComponent = new OptionView({option});
 
     render(optionComponent, optGroup ? this.#optGroupComponents.get(optGroup).element.lastElementChild : this.#selectComponent.element.lastElementChild);
-    this.#optionComponents.set(option.id, optionComponent);
+    this.#optionComponents.push(optionComponent);
   }
 
   #renderOptGroup(optGroup) {
@@ -81,7 +140,7 @@ export default class SelectPresenter {
 
   #clearSelect() {
     this.#optGroupComponents.clear();
-    this.#optionComponents.clear();
+    this.#optionComponents = [];
 
     remove(this.#selectComponent);
   }

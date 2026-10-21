@@ -3,8 +3,8 @@ import AbstractView from '../framework/view/abstract-view.js';
 const createSelectTemplate = (select) => {
   const {
     id,
-    lastSelectedOption,
-    lastFocusedOption,
+    options,
+    activeDescendant,
     classList,
     tabIndex,
     isOpened,
@@ -24,13 +24,13 @@ const createSelectTemplate = (select) => {
     ${isDisabled ? 'aria-disabled="true"' : `tabindex="${tabIndex}"`}
     ${isMultiple ? 'aria-multiselectable="true"' : `aria-expanded="${String(isOpened)}" aria-controls="select-datalist-${id}"`}
     ${isRequired ? 'aria-required="true"' : ''}
-    ${lastFocusedOption && (isMultiple || isOpened) ? `aria-activedescendant="select-option-${lastFocusedOption.id}"` : ''}
+    ${(activeDescendant && (isMultiple || isOpened)) ? `aria-activedescendant="select-option-${activeDescendant.id}"` : ''}
     aria-labelledby="custom-select-${id}"
   >
     ${isMultiple ? '' : `<div class="custom-select__header">
-      <div class="custom-select__header-label">${lastSelectedOption?.label ?? ''}</div>
+      <div class="custom-select__header-label">${activeDescendant?.label ?? options[0].label}</div>
     </div>`}
-    <ul class="custom-select__datalist" id="select-datalist-${id}" tabindex="-1" role="${isMultiple ? 'none' : 'listbox'}"></ul>
+    <ul class="custom-select__datalist" id="select-datalist-${id}" role="${isMultiple ? 'none' : 'listbox'}"></ul>
   </div>`;
 };
 
@@ -57,12 +57,12 @@ export default class SelectView extends AbstractView {
   updateElement(update) {
     this.#select = update;
 
-    this.element.setAttribute('aria-activedescendant', `select-option-${update.lastFocusedOption.id}`);
+    this.element.setAttribute('aria-activedescendant', `select-option-${update.activeDescendant.id}`);
 
     if (!this.#select.isMultiple) {
       const headerLabelElement = this.element.querySelector('.custom-select__header-label');
 
-      headerLabelElement.textContent = update.lastSelectedOption.label;
+      headerLabelElement.textContent = update.activeDescendant.label;
     }
   }
 }
