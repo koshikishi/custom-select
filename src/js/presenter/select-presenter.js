@@ -1,4 +1,4 @@
-import {render, remove} from '../framework/render.js';
+import {render} from '../framework/render.js';
 import SelectView from '../view/select-view.js';
 import OptGroupView from '../view/optgroup-view.js';
 import OptionView from '../view/option-view.js';
@@ -35,29 +35,39 @@ export default class SelectPresenter {
 
     const clickedOption = getClosestOption(evt.target, evt.currentTarget);
 
-    if (clickedOption) {
-      const option = this.select.options[Number(clickedOption.dataset.index)];
-
-      this.#handleViewAction(UserAction.SET_SELECTED, this.select.isMultiple ? UpdateType.MINOR : UpdateType.NONE, {
-        selectedOptions: this.#getSelectedOptions(evt, option),
-        activeDescendant: option,
-        selectedIndex: (this.select.isMultiple && evt.shiftKey && this.select.selectedIndex !== -1) ? this.select.selectedIndex : option.index,
-      });
-    }
-
     if (!this.select.isMultiple) {
-      this.#handleViewAction(UserAction.TOGGLE_SELECT, UpdateType.MAJOR);
+      this.#handleViewAction(UserAction.TOGGLE_SELECT, clickedOption ? UpdateType.NONE : UpdateType.SELECT);
     }
+
+    if (!clickedOption) {
+      return;
+    }
+
+    const option = this.select.options[Number(clickedOption.dataset.index)];
+
+    this.#handleViewAction(UserAction.SET_SELECTED, UpdateType.ALL, {
+      selectedOptions: this.#getSelectedOptions(evt, option),
+      activeDescendant: option,
+      selectedIndex: (this.select.isMultiple && evt.shiftKey && this.select.selectedIndex !== -1) ? this.select.selectedIndex : option.index,
+    });
   };
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #handleFocusOut = (evt) => {
+    if (this.select.isMultiple || evt.currentTarget.contains(evt.relatedTarget)) {
+      return;
+    }
+
+    this.#handleViewAction(UserAction.TOGGLE_SELECT, UpdateType.SELECT, false);
+  };
+
+  #handleViewAction = (actionType, updateType, data) => {
     switch (actionType) {
       case UserAction.SET_SELECTED:
-        this.#selectModel.setSelected(updateType, update);
+        this.#selectModel.setSelected(updateType, data);
 
         break;
       case UserAction.TOGGLE_SELECT:
-        this.#selectModel.toggleSelect(updateType);
+        this.#selectModel.toggleSelect(updateType, data);
 
         break;
     }
@@ -67,22 +77,21 @@ export default class SelectPresenter {
     switch (updateType) {
       case UpdateType.NONE:
         break;
-      case UpdateType.MINOR:
-        this.#optionComponents.forEach((component, index) => component.updateElement(this.select.options[index]));
+      case UpdateType.SELECT:
         this.#selectComponent.updateElement(data);
 
-        break;
-      case UpdateType.MAJOR:
-        this.#clearSelect();
-        this.#renderSelect();
-
-        if (this.select.isOpened) {
-          this.#optionComponents[this.select.activeDescendant.index].element.focus();
-
-          return;
+        if (data.isOpened) {
+          this.#optionComponents[data.activeDescendant.index].element.focus();
         }
 
-        this.#selectComponent.element.focus();
+        break;
+      case UpdateType.ALL:
+        this.#optionComponents.forEach((component, index) => component.updateElement(data.options[index]));
+        this.#selectComponent.updateElement(data);
+
+        if (!data.isMultiple) {
+          this.#selectComponent.element.focus();
+        }
 
         break;
     }
@@ -138,17 +147,11 @@ export default class SelectPresenter {
     options.forEach((option) => this.#renderOption(option));
   }
 
-  #clearSelect() {
-    this.#optGroupComponents.clear();
-    this.#optionComponents = [];
-
-    remove(this.#selectComponent);
-  }
-
   #renderSelect() {
     this.#selectComponent = new SelectView({
       select: this.select,
       onClick: this.#handleClick,
+      onFocusOut: this.#handleFocusOut,
     });
 
     render(this.#selectComponent, this.#selectContainer);

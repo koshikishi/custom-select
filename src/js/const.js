@@ -5,8 +5,8 @@ const UserAction = {
 
 const UpdateType = {
   NONE: 'NONE',
-  MINOR: 'MINOR',
-  MAJOR: 'MAJOR',
+  SELECT: 'SELECT',
+  ALL: 'ALL',
 };
 
 export {UserAction, UpdateType};

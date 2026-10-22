@@ -17,10 +17,10 @@ export default class SelectModel extends Observable {
     this._notify(updateType, this.#select);
   }
 
-  toggleSelect(updateType) {
-    this.#select.isOpened = !this.#select.isOpened;
+  toggleSelect(updateType, force) {
+    this.#select.isOpened = force ?? !this.#select.isOpened;
 
-    this._notify(updateType);
+    this._notify(updateType, this.#select);
   }
 
   #toggleOption(option, force) {
