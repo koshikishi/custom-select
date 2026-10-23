@@ -3,7 +3,7 @@ import SelectView from '../view/select-view.js';
 import OptGroupView from '../view/optgroup-view.js';
 import OptionView from '../view/option-view.js';
 import {getClosestOption, getClosestDisabled} from '../utils/element.js';
-import {UserAction, UpdateType} from '../const.js';
+import {UserAction, UpdateType, EventType, KeyValue} from '../const.js';
 
 export default class SelectPresenter {
   #selectContainer = null;
@@ -12,6 +12,8 @@ export default class SelectPresenter {
   #selectComponent = null;
   #optGroupComponents = new Map();
   #optionComponents = [];
+
+  #prevOption = null;
 
   constructor({selectContainer, selectModel}) {
     this.#selectContainer = selectContainer;
@@ -36,7 +38,7 @@ export default class SelectPresenter {
     const clickedOption = getClosestOption(evt.target, evt.currentTarget);
 
     if (!this.select.isMultiple) {
-      this.#handleViewAction(UserAction.TOGGLE_SELECT, clickedOption ? UpdateType.NONE : UpdateType.SELECT);
+      this.#handleViewAction(UserAction.TOGGLE_SELECT, clickedOption ? UpdateType.NONE : UpdateType.SELECT, EventType.CLICK);
     }
 
     if (!clickedOption) {
@@ -45,11 +47,76 @@ export default class SelectPresenter {
 
     const option = this.select.options[Number(clickedOption.dataset.index)];
 
-    this.#handleViewAction(UserAction.SET_SELECTED, UpdateType.ALL, {
+    this.#prevOption = option;
+    this.#handleViewAction(UserAction.SET_SELECTED, UpdateType.ALL, EventType.CLICK, {
       selectedOptions: this.#getSelectedOptions(evt, option),
       activeDescendant: option,
       selectedIndex: (this.select.isMultiple && evt.shiftKey && this.select.selectedIndex !== -1) ? this.select.selectedIndex : option.index,
     });
+  };
+
+  #handleKeyDown = (evt) => {
+    if (this.select.isDisabled) {
+      return;
+    }
+
+    switch (evt.key) {
+      case KeyValue.ENTER:
+      case KeyValue.SPACEBAR:
+        evt.preventDefault();
+        evt.target.dispatchEvent(new PointerEvent('click', {
+          bubbles: true,
+          ctrlKey: evt.ctrlKey,
+          shiftKey: evt.shiftKey,
+          button: 0,
+        }));
+
+        break;
+      case KeyValue.ESCAPE:
+        if (!this.select.isOpened || this.select.isMultiple) {
+          return;
+        }
+
+        this.#handleViewAction(UserAction.TOGGLE_SELECT, UpdateType.SELECT, EventType.KEYDOWN, false);
+
+        break;
+      case KeyValue.ARROW_UP:
+      case KeyValue.ARROW_DOWN:
+        evt.preventDefault();
+
+        this.#handleNavigationKey(evt, evt.key === KeyValue.ARROW_DOWN);
+
+        break;
+      case KeyValue.ARROW_LEFT:
+      case KeyValue.ARROW_RIGHT:
+        if (this.select.isOpened || this.select.isMultiple) {
+          return;
+        }
+
+        evt.preventDefault();
+
+        this.#handleNavigationKey(evt, evt.key === KeyValue.ARROW_RIGHT);
+
+        break;
+      case KeyValue.HOME:
+      case KeyValue.END:
+        evt.preventDefault();
+
+        this.#handleNavigationKey(evt, evt.key === KeyValue.END, {
+          last: true,
+        });
+
+        break;
+      case KeyValue.PAGE_UP:
+      case KeyValue.PAGE_DOWN:
+        evt.preventDefault();
+
+        this.#handleNavigationKey(evt, evt.key === KeyValue.PAGE_DOWN, {
+          step: this.select.isOpened ? 10 : 3,
+        });
+
+        break;
+    }
   };
 
   #handleFocusOut = (evt) => {
@@ -57,23 +124,23 @@ export default class SelectPresenter {
       return;
     }
 
-    this.#handleViewAction(UserAction.TOGGLE_SELECT, UpdateType.SELECT, false);
+    this.#handleViewAction(UserAction.TOGGLE_SELECT, UpdateType.SELECT, EventType.FOCUSOUT, false);
   };
 
-  #handleViewAction = (actionType, updateType, data) => {
+  #handleViewAction(actionType, updateType, eventType, data) {
     switch (actionType) {
       case UserAction.SET_SELECTED:
-        this.#selectModel.setSelected(updateType, data);
+        this.#selectModel.setSelected(updateType, eventType, data);
 
         break;
       case UserAction.TOGGLE_SELECT:
-        this.#selectModel.toggleSelect(updateType, data);
+        this.#selectModel.toggleSelect(updateType, eventType, data);
 
         break;
     }
-  };
+  }
 
-  #handleModelEvent = (updateType, data) => {
+  #handleModelEvent = (updateType, eventType, data) => {
     switch (updateType) {
       case UpdateType.NONE:
         break;
@@ -82,6 +149,12 @@ export default class SelectPresenter {
 
         if (data.isOpened) {
           this.#optionComponents[data.activeDescendant.index].element.focus();
+
+          return;
+        }
+
+        if (eventType !== EventType.FOCUSOUT) {
+          this.#selectComponent.element.focus();
         }
 
         break;
@@ -89,7 +162,13 @@ export default class SelectPresenter {
         this.#optionComponents.forEach((component, index) => component.updateElement(data.options[index]));
         this.#selectComponent.updateElement(data);
 
-        if (!data.isMultiple) {
+        if (eventType === EventType.KEYDOWN && (data.isOpened || data.isMultiple)) {
+          this.#optionComponents[data.activeDescendant.index].element.focus();
+
+          return;
+        }
+
+        if (eventType === EventType.CLICK && !data.isMultiple) {
           this.#selectComponent.element.focus();
         }
 
@@ -97,9 +176,43 @@ export default class SelectPresenter {
     }
   };
 
+  #handleNavigationKey(evt, next, {step = 1, last = false} = {}) {
+    const lastOption = next ? this.select.options.findLast(({isDisabled}) => !isDisabled) : this.select.options.find(({isDisabled}) => !isDisabled);
+    const option = last ? lastOption : this.#getNextOption(next, this.select.activeDescendant?.index ?? this.select.selectedIndex, step);
+
+    if (!option || option?.id === this.#prevOption?.id) {
+      return;
+    }
+
+    this.#prevOption = option;
+    this.#handleViewAction(UserAction.SET_SELECTED, UpdateType.ALL, EventType.KEYDOWN, {
+      selectedOptions: this.#getSelectedOptions(evt, option),
+      activeDescendant: option,
+      selectedIndex: (this.select.isMultiple && evt.shiftKey && this.select.selectedIndex !== -1) ? this.select.selectedIndex : option.index,
+    });
+  }
+
+  #getNextOption(next, currentIndex = 0, step = 1) {
+    const startIndex = this.select.options.findIndex(({isDisabled}) => !isDisabled);
+    const endIndex = this.select.options.findLastIndex(({isDisabled}) => !isDisabled);
+
+    if ((next && currentIndex === endIndex) || (!next && currentIndex === startIndex)) {
+      return this.select.options[currentIndex];
+    }
+
+    const nextIndex = next ? Math.min(currentIndex + step, endIndex) : Math.max(((currentIndex === -1) ? endIndex + 1 : currentIndex) - step, startIndex);
+    const option = this.select.options[nextIndex];
+
+    return option.isDisabled ? this.#getNextOption(next, nextIndex) : option;
+  }
+
   #getSelectedOptions(evt, option) {
     if (this.select.isMultiple && evt.ctrlKey) {
       const selectedOptions = new Set(this.select.selectedOptions);
+
+      if (evt.type === EventType.KEYDOWN) {
+        return selectedOptions;
+      }
 
       if (selectedOptions.has(option)) {
         selectedOptions.delete(option);
@@ -151,6 +264,7 @@ export default class SelectPresenter {
     this.#selectComponent = new SelectView({
       select: this.select,
       onClick: this.#handleClick,
+      onKeyDown: this.#handleKeyDown,
       onFocusOut: this.#handleFocusOut,
     });
 

@@ -39,15 +39,18 @@ const createSelectTemplate = (select) => {
 export default class SelectView extends AbstractView {
   #select = null;
   #handleClick = null;
+  #handleKeyDown = null;
   #handleFocusOut = null;
 
-  constructor({select, onClick, onFocusOut}) {
+  constructor({select, onClick, onKeyDown, onFocusOut}) {
     super();
     this.#select = select;
     this.#handleClick = onClick;
+    this.#handleKeyDown = onKeyDown;
     this.#handleFocusOut = onFocusOut;
 
     this.element.addEventListener('click', this.#clickHandler);
+    this.element.addEventListener('keydown', this.#keyDownHandler);
     this.element.addEventListener('focusout', this.#focusOutHandler);
   }
 
@@ -59,6 +62,10 @@ export default class SelectView extends AbstractView {
     this.#handleClick(evt);
   };
 
+  #keyDownHandler = (evt) => {
+    this.#handleKeyDown(evt);
+  };
+
   #focusOutHandler = (evt) => {
     this.#handleFocusOut(evt);
   };
@@ -66,7 +73,7 @@ export default class SelectView extends AbstractView {
   updateElement(update) {
     this.#select = update;
 
-    this.element.setAttribute('aria-activedescendant', `${update.activeDescendant.id}`);
+    this.element.setAttribute('aria-activedescendant', (update.isOpened || update.isMultiple) ? update.activeDescendant.id : '');
 
     if (!this.#select.isMultiple) {
       const headerLabelElement = this.element.querySelector('.custom-select__header-label');

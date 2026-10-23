@@ -9,7 +9,7 @@ export default class Observable {
     this.#observers.delete(observer);
   }
 
-  _notify(event, payload) {
-    this.#observers.forEach((observer) => observer(event, payload));
+  _notify(event, eventType, payload) {
+    this.#observers.forEach((observer) => observer(event, eventType, payload));
   }
 }

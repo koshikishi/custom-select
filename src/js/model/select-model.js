@@ -8,19 +8,19 @@ export default class SelectModel extends Observable {
     return this.#select;
   }
 
-  setSelected(updateType, {selectedOptions, activeDescendant, selectedIndex}) {
+  setSelected(updateType, eventType, {selectedOptions, activeDescendant, selectedIndex}) {
     this.#select.options.forEach((option) => this.#toggleOption(option, selectedOptions.has(option)));
 
     this.#select.selectedIndex = selectedIndex;
     this.#select.activeDescendant = activeDescendant;
 
-    this._notify(updateType, this.#select);
+    this._notify(updateType, eventType, this.#select);
   }
 
-  toggleSelect(updateType, force) {
+  toggleSelect(updateType, eventType, force) {
     this.#select.isOpened = force ?? !this.#select.isOpened;
 
-    this._notify(updateType, this.#select);
+    this._notify(updateType, eventType, this.#select);
   }
 
   #toggleOption(option, force) {

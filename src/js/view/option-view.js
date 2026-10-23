@@ -37,12 +37,7 @@ export default class OptionView extends AbstractView {
 
     this.#option = update;
 
-    const prevElement = this.element;
-
-    this.removeElement();
-
-    const newElement = this.element;
-
-    prevElement.replaceWith(newElement);
+    this.element.classList.toggle('custom-select__option--selected', update.isSelected);
+    this.element.ariaSelected = String(update.isSelected);
   }
 }
