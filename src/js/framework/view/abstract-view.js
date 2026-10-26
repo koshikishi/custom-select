@@ -20,8 +20,4 @@ export default class AbstractView {
   get template() {
     throw new Error('Abstract method not implemented: get template');
   }
-
-  removeElement() {
-    this.#element = null;
-  }
 }
