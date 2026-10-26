@@ -1,14 +1,21 @@
 import Observable from '../framework/observable.js';
-import {mockSelect} from '../mock/select.js';
 
 export default class SelectModel extends Observable {
-  #select = mockSelect;
+  #selectAdapter = null;
+  #select = null;
+
+  constructor({selectAdapter}) {
+    super();
+    this.#selectAdapter = selectAdapter;
+    this.#select = selectAdapter.select;
+  }
 
   get select() {
     return this.#select;
   }
 
   setSelected(updateType, eventType, {selectedOptions, activeDescendant, selectedIndex}) {
+    this.#selectAdapter.setSelected(Array.from(selectedOptions));
     this.#select.options.forEach((option) => this.#toggleOption(option, selectedOptions.has(option)));
 
     this.#select.selectedIndex = selectedIndex;
