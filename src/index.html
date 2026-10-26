@@ -175,13 +175,13 @@
       </section>
       <section>
         <h2>Custom <code>&lt;select&gt;</code></h2>
-        <p>And here are various examples of custom <code>&lt;select&gt;</code> markup.</p>
+        <p>And here are various examples of custom <code>&lt;select&gt;</code> created with JavaScript.</p>
         <div class="grid">
           <div class="block">
             <p>Simple custom <code>&lt;select&gt;</code></p>
             <div class="block__main">
               <label for="custom-select">What is your favorite animal?</label>
-              <select class="custom-select-styled" id="custom-select" name="custom-select">
+              <select class="custom-select-styled" id="custom-select" name="custom-select" autofocus>
                 <option>Cat</option>
                 <option>Dog</option>
                 <option>Parrot</option>
@@ -197,395 +197,76 @@
           <div class="block">
             <p>Custom <code>&lt;select&gt;</code> with multiple selectable options</p>
             <div class="block__main">
-              <!--
-                Origin <select> element with <label>.
-
-                <label for="custom-select-multiple">What are your favorite animals?</label>
-                <select class="custom-select-styled" id="custom-select-multiple" name="custom-select-multiple" multiple>
-                  <option>Cat</option>
-                  <option>Dog</option>
-                  <option>Parrot</option>
-                  <option>Fish</option>
-                  <option>Hamster</option>
-                  <option>Rat</option>
-                  <option>Turtle</option>
-                  <option>Spider</option>
-                  <option>Dragon</option>
-                </select>
-              -->
-              <label for="custom-select-multiple" id="custom-select-multiple-rnd201">What are your favorite animals?</label>
-              <!--
-                Class modifiers for different states:
-                  * custom-select--disabled - for disabled select
-                  * custom-select--required - for required select
-
-                In disabled state:
-                  * no tabindex
-                  * aria-disabled="true"
-
-                In required state:
-                  * aria-required="true"
-
-                rnd*** suffixes in identifiers must be randomly generated.
-
-                If no option is initially selected, then aria-activedescendant is not added. Afterwards, it is the last focused element (even deselected).
-              -->
-              <div
-                class="custom-select custom-select--multiple"
-                tabindex="0"
-                role="listbox"
-                aria-disabled="false"
-                aria-multiselectable="true"
-                aria-required="false"
-                aria-activedescendant=""
-                aria-labelledby="custom-select-multiple-rnd201"
-              >
-                <ul class="custom-select__datalist" id="select-datalist-rnd202" tabindex="-1" role="none">
-                  <!--
-                    Class modifiers for different states:
-                      * custom-select__option--selected - for selected option
-                      * custom-select__option--disabled - for disabled option
-
-                    In non-selected state:
-                      * aria-selected="false"
-
-                    In selected state:
-                      * aria-selected="true"
-
-                    In disabled state:
-                      * no tabindex
-                      * aria-disabled="true"
-                  -->
-                  <li class="custom-select__option" id="select-option-rnd203" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Cat</div>
-                  </li>
-                  <li class="custom-select__option" id="select-option-rnd204" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Dog</div>
-                  </li>
-                  <li class="custom-select__option" id="select-option-rnd205" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Parrot</div>
-                  </li>
-                  <li class="custom-select__option" id="select-option-rnd206" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Fish</div>
-                  </li>
-                  <li class="custom-select__option" id="select-option-rnd207" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Hamster</div>
-                  </li>
-                  <li class="custom-select__option" id="select-option-rnd208" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Rat</div>
-                  </li>
-                  <li class="custom-select__option" id="select-option-rnd209" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Turtle</div>
-                  </li>
-                  <li class="custom-select__option" id="select-option-rnd210" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Spider</div>
-                  </li>
-                  <li class="custom-select__option" id="select-option-rnd211" tabindex="-1" role="option" aria-selected="false">
-                    <div class="custom-select__option-label">Dragon</div>
-                  </li>
-                </ul>
-              </div>
+              <label for="custom-select-multiple">What are your favorite animals?</label>
+              <select class="custom-select-styled" id="custom-select-multiple" name="custom-select-multiple" multiple>
+                <option>Cat</option>
+                <option>Dog</option>
+                <option>Parrot</option>
+                <option>Fish</option>
+                <option>Hamster</option>
+                <option>Rat</option>
+                <option>Turtle</option>
+                <option>Spider</option>
+                <option>Dragon</option>
+              </select>
             </div>
           </div>
           <div class="block">
             <p>Custom <code>&lt;select&gt;</code> with grouped options</p>
             <div class="block__main">
-              <!--
-                Origin <select> element with <label>.
-
-                <label for="custom-select-optgroup">Choose your pet:</label>
-                <select class="custom-select-styled" id="custom-select-optgroup" name="custom-select-optgroup">
-                  <optgroup label="Cats">
-                    <option>American Shorthair</option>
-                    <option>British Shorthair</option>
-                    <option>Maine Coon</option>
-                    <option>Persian cat</option>
-                    <option>Siamese cat</option>
-                  </optgroup>
-                  <optgroup label="Dogs">
-                    <option>Dobermann</option>
-                    <option>German Shepherd</option>
-                    <option>Jack Russell Terrier</option>
-                    <option>Pug</option>
-                    <option>Siberian Husky</option>
-                  </optgroup>
-                  <optgroup label="Parrots">
-                    <option>Ara</option>
-                    <option>Budgerigar</option>
-                    <option>Cockatoo</option>
-                    <option>Grey parrot</option>
-                    <option>Lovebird</option>
-                  </optgroup>
-                </select>
-              -->
-              <label for="custom-select-optgroup" id="custom-select-optgroup-rnd301">Choose your pet:</label>
-              <!--
-                Class modifiers for different states:
-                  * custom-select--opened - for opened select
-                  * custom-select--disabled - for disabled select
-                  * custom-select--required - for required select
-
-                In closed state:
-                  * aria-expanded="false"
-                  * no aria-activedescendant
-
-                In opened state:
-                  * aria-expanded="true"
-                  * aria-activedescendant="select-option-rnd306" - currently selected option
-
-                In disabled state:
-                  * no tabindex
-                  * aria-disabled="true"
-
-                In required state:
-                  * aria-required="true"
-
-                rnd*** suffixes in identifiers must be randomly generated.
-              -->
-              <div
-                class="custom-select"
-                tabindex="0"
-                role="combobox"
-                aria-disabled="false"
-                aria-expanded="false"
-                aria-required="false"
-                aria-activedescendant=""
-                aria-controls="select-datalist-rnd302"
-                aria-labelledby="custom-select-optgroup-rnd301"
-              >
-                <div class="custom-select__header">
-                  <div class="custom-select__header-label">American Shorthair</div>
-                </div>
-                <ul class="custom-select__datalist" id="select-datalist-rnd302" tabindex="-1" role="listbox">
-                  <!--
-                    Class modifiers for different states:
-                      * custom-select__optgroup--disabled - for disabled optgroup
-
-                    In disabled state:
-                      * aria-disabled="true"
-                  -->
-                  <li class="custom-select__optgroup" role="group" aria-labelledby="select-optgroup-rnd303">
-                    <div class="custom-select__optgroup-label" id="select-optgroup-rnd303" aria-hidden="true">Cats</div>
-                    <ul class="custom-select__optgroup-list" role="none">
-                      <!--
-                        Class modifiers for different states:
-                          * custom-select__option--selected - for selected option
-                          * custom-select__option--disabled - for disabled option
-
-                        In non-selected state:
-                          * aria-selected="false"
-
-                        In selected state:
-                          * aria-selected="true"
-
-                        In disabled state:
-                          * no tabindex
-                          * aria-disabled="true"
-                      -->
-                      <li class="custom-select__option custom-select__option--selected" id="select-option-rnd306" tabindex="-1" role="option" aria-selected="true">
-                        <div class="custom-select__option-label">American Shorthair</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd307" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">British Shorthair</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd308" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Maine Coon</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd309" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Persian cat</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd310" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Siamese cat</div>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="custom-select__optgroup" role="group" aria-labelledby="select-optgroup-rnd304">
-                    <div class="custom-select__optgroup-label" id="select-optgroup-rnd304" aria-hidden="true">Dogs</div>
-                    <ul class="custom-select__optgroup-list" role="none">
-                      <li class="custom-select__option" id="select-option-rnd311" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Dobermann</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd312" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">German Shepherd</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd313" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Jack Russell Terrier</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd314" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Pug</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd315" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Siberian Husky</div>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="custom-select__optgroup" role="group" aria-labelledby="select-optgroup-rnd305">
-                    <div class="custom-select__optgroup-label" id="select-optgroup-rnd305" aria-hidden="true">Parrots</div>
-                    <ul class="custom-select__optgroup-list" role="none">
-                      <li class="custom-select__option" id="select-option-rnd316" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Ara</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd317" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Budgerigar</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd318" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Cockatoo</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd319" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Grey parrot</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd320" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Lovebird</div>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+              <label for="custom-select-optgroup">Choose your pet:</label>
+              <select class="custom-select-styled" id="custom-select-optgroup" name="custom-select-optgroup">
+                <optgroup label="Cats">
+                  <option>American Shorthair</option>
+                  <option>British Shorthair</option>
+                  <option>Maine Coon</option>
+                  <option>Persian cat</option>
+                  <option>Siamese cat</option>
+                </optgroup>
+                <optgroup label="Dogs">
+                  <option>Dobermann</option>
+                  <option>German Shepherd</option>
+                  <option>Jack Russell Terrier</option>
+                  <option>Pug</option>
+                  <option>Siberian Husky</option>
+                </optgroup>
+                <optgroup label="Parrots">
+                  <option>Ara</option>
+                  <option>Budgerigar</option>
+                  <option>Cockatoo</option>
+                  <option>Grey parrot</option>
+                  <option>Lovebird</option>
+                </optgroup>
+              </select>
             </div>
           </div>
           <div class="block">
             <p>Custom multiple <code>&lt;select&gt;</code> with grouped options</p>
             <div class="block__main">
-              <!--
-                Origin <select> element with <label>.
-
-                <label for="custom-select-optgroup-multiple">Choose your pets:</label>
-                <select class="custom-select-styled" id="custom-select-optgroup-multiple" name="custom-select-optgroup-multiple" multiple>
-                  <optgroup label="Cats">
-                    <option>American Shorthair</option>
-                    <option>British Shorthair</option>
-                    <option>Maine Coon</option>
-                    <option>Persian cat</option>
-                    <option>Siamese cat</option>
-                  </optgroup>
-                  <optgroup label="Dogs">
-                    <option>Dobermann</option>
-                    <option>German Shepherd</option>
-                    <option>Jack Russell Terrier</option>
-                    <option>Pug</option>
-                    <option>Siberian Husky</option>
-                  </optgroup>
-                  <optgroup label="Parrots">
-                    <option>Ara</option>
-                    <option>Budgerigar</option>
-                    <option>Cockatoo</option>
-                    <option>Grey parrot</option>
-                    <option>Lovebird</option>
-                  </optgroup>
-                </select>
-              -->
-              <label for="custom-select-optgroup-multiple" id="custom-select-optgroup-multiple-rnd401">Choose your pets:</label>
-              <!--
-                Class modifiers for different states:
-                  * custom-select--disabled - for disabled select
-                  * custom-select--required - for required select
-
-                In disabled state:
-                  * no tabindex
-                  * aria-disabled="true"
-
-                In required state:
-                  * aria-required="true"
-
-                rnd*** suffixes in identifiers must be randomly generated.
-
-                If no option is initially selected, then aria-activedescendant is not added. Afterwards, it is the last focused element (even deselected).
-              -->
-              <div
-                class="custom-select custom-select--multiple"
-                tabindex="0"
-                role="listbox"
-                aria-disabled="false"
-                aria-multiselectable="true"
-                aria-required="false"
-                aria-activedescendant=""
-                aria-labelledby="custom-select-optgroup-multiple-rnd401"
-              >
-                <ul class="custom-select__datalist" id="select-datalist-rnd402" tabindex="-1" role="none">
-                  <!--
-                    Class modifiers for different states:
-                      * custom-select__optgroup--disabled - for disabled optgroup
-
-                    In disabled state:
-                      * aria-disabled="true"
-                  -->
-                  <li class="custom-select__optgroup" role="group" aria-labelledby="select-optgroup-rnd403">
-                    <div class="custom-select__optgroup-label" id="select-optgroup-rnd403" aria-hidden="true">Cats</div>
-                    <ul class="custom-select__optgroup-list" role="none">
-                      <!--
-                        Class modifiers for different states:
-                          * custom-select__option--selected - for selected option
-                          * custom-select__option--disabled - for disabled option
-
-                        In non-selected state:
-                          * aria-selected="false"
-
-                        In selected state:
-                          * aria-selected="true"
-
-                        In disabled state:
-                          * no tabindex
-                          * aria-disabled="true"
-                      -->
-                      <li class="custom-select__option" id="select-option-rnd406" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">American Shorthair</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd407" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">British Shorthair</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd408" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Maine Coon</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd409" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Persian cat</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd410" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Siamese cat</div>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="custom-select__optgroup" role="group" aria-labelledby="select-optgroup-rnd404">
-                    <div class="custom-select__optgroup-label" id="select-optgroup-rnd404" aria-hidden="true">Dogs</div>
-                    <ul class="custom-select__optgroup-list" role="none">
-                      <li class="custom-select__option" id="select-option-rnd411" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Dobermann</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd412" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">German Shepherd</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd413" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Jack Russell Terrier</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd414" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Pug</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd415" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Siberian Husky</div>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="custom-select__optgroup" role="group" aria-labelledby="select-optgroup-rnd405">
-                    <div class="custom-select__optgroup-label" id="select-optgroup-rnd405" aria-hidden="true">Parrots</div>
-                    <ul class="custom-select__optgroup-list" role="none">
-                      <li class="custom-select__option" id="select-option-rnd416" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Ara</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd417" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Budgerigar</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd418" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Cockatoo</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd419" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Grey parrot</div>
-                      </li>
-                      <li class="custom-select__option" id="select-option-rnd420" tabindex="-1" role="option" aria-selected="false">
-                        <div class="custom-select__option-label">Lovebird</div>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+              <label for="custom-select-optgroup-multiple">Choose your pets:</label>
+              <select class="custom-select-styled" id="custom-select-optgroup-multiple" name="custom-select-optgroup-multiple" multiple>
+                <optgroup label="Cats">
+                  <option>American Shorthair</option>
+                  <option>British Shorthair</option>
+                  <option>Maine Coon</option>
+                  <option>Persian cat</option>
+                  <option>Siamese cat</option>
+                </optgroup>
+                <optgroup label="Dogs">
+                  <option>Dobermann</option>
+                  <option>German Shepherd</option>
+                  <option>Jack Russell Terrier</option>
+                  <option>Pug</option>
+                  <option>Siberian Husky</option>
+                </optgroup>
+                <optgroup label="Parrots">
+                  <option>Ara</option>
+                  <option>Budgerigar</option>
+                  <option>Cockatoo</option>
+                  <option>Grey parrot</option>
+                  <option>Lovebird</option>
+                </optgroup>
+              </select>
             </div>
           </div>
         </div>
