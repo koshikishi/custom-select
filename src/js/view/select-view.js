@@ -6,12 +6,18 @@ const createSelectTemplate = (select) => {
     options,
     activeDescendant,
     classList,
+    style,
     labelIds,
+    title,
+    lang,
+    dir,
     tabIndex,
     isOpened,
     isMultiple,
     isDisabled,
     isRequired,
+    isTranslatable,
+    hasAutofocus,
   } = select;
   const dataListId = `select-datalist-${nanoid()}`;
 
@@ -22,12 +28,18 @@ const createSelectTemplate = (select) => {
 
   return `<div
     class="custom-select ${classList.join(' ')} ${openedClassName} ${multipleClassName} ${disabledClassName} ${requiredClassName}"
+    ${style ? `style="${style}"` : ''}
+    ${title ? `title="${title}"` : ''}
+    ${lang ? `lang="${lang}"` : ''}
+    ${dir ? `dir="${dir}"` : ''}
+    ${isTranslatable ? 'translate="yes"' : ''}
+    ${hasAutofocus ? 'autofocus' : ''}
     role="${isMultiple ? 'listbox' : 'combobox'}"
     ${isDisabled ? 'aria-disabled="true"' : `tabindex="${tabIndex}"`}
     ${isMultiple ? 'aria-multiselectable="true"' : `aria-expanded="${String(isOpened)}" aria-controls="${dataListId}"`}
     ${isRequired ? 'aria-required="true"' : ''}
     ${(activeDescendant && (isMultiple || isOpened)) ? `aria-activedescendant="${activeDescendant.id}"` : ''}
-    aria-labelledby="${labelIds.join(' ')}"
+    ${labelIds.length ? `aria-labelledby="${labelIds.join(' ')}"` : ''}
   >
     ${isMultiple ? '' : `<div class="custom-select__header">
       <div class="custom-select__header-label">${activeDescendant?.label ?? options[0].label}</div>

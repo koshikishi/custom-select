@@ -12,6 +12,7 @@ export default class SelectManager {
 
     this.#origin.tabIndex = -1;
     this.#origin.hidden = true;
+    this.#origin.autofocus = false;
 
     Array.prototype.forEach.call(this.#origin.labels, (label, index) => {
       if (label.id) {

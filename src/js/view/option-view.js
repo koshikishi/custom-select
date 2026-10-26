@@ -1,7 +1,17 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
 const createOptionTemplate = (option) => {
-  const {id, index, label, isSelected, isDisabled} = option;
+  const {
+    id,
+    index,
+    label,
+    title,
+    lang,
+    dir,
+    isSelected,
+    isDisabled,
+    isTranslatable,
+  } = option;
 
   const selectedClassName = isSelected ? 'custom-select__option--selected' : '';
   const disabledClassName = isDisabled ? 'custom-select__option--disabled' : '';
@@ -9,6 +19,10 @@ const createOptionTemplate = (option) => {
   return `<li
     class="custom-select__option ${selectedClassName} ${disabledClassName}"
     id="${id}"
+    ${title ? `title="${title}"` : ''}
+    ${lang ? `lang="${lang}"` : ''}
+    ${dir ? `dir="${dir}"` : ''}
+    ${isTranslatable ? 'translate="yes"' : ''}
     data-index="${index}"
     role="option"
     ${isDisabled ? 'aria-disabled="true"' : 'tabindex="-1"'}
