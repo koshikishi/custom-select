@@ -15,6 +15,10 @@ export default class SelectAdapter {
     this.#origin = origin;
   }
 
+  get origin() {
+    return this.#origin;
+  }
+
   get select() {
     if (!this.#select) {
       this.#select = this.#adaptSelect(this.#origin);
@@ -76,7 +80,6 @@ export default class SelectAdapter {
   #adaptSelect(select) {
     const adaptedSelect = {};
 
-    adaptedSelect.id = `custom-select-${nanoid()}`;
     adaptedSelect.options = Array.prototype.map.call(select.options, (option) => this.#adaptOption(option, select.disabled));
     adaptedSelect.selectedOptions = new Set(adaptedSelect.options.filter(({isSelected}) => isSelected));
     adaptedSelect.selectedIndex = select.selectedIndex;
@@ -84,7 +87,7 @@ export default class SelectAdapter {
     adaptedSelect.classList = Array.from(select.classList);
     adaptedSelect.style = select.style.cssText;
     adaptedSelect.size = select.size;
-    adaptedSelect.labels = select.labels;
+    adaptedSelect.labelIds = Array.prototype.map.call(select.labels, (label) => label.id || `${label.htmlFor}-${nanoid()}`);
     adaptedSelect.isOpened = false;
     adaptedSelect.isMultiple = select.multiple;
     adaptedSelect.isDisabled = select.disabled;

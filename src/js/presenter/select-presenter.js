@@ -8,6 +8,7 @@ import {UserAction, UpdateType, EventType, KeyValue} from '../const.js';
 export default class SelectPresenter {
   #selectContainer = null;
   #selectModel = null;
+  #selectManager = null;
 
   #selectComponent = null;
   #optGroupComponents = new Map();
@@ -15,9 +16,10 @@ export default class SelectPresenter {
 
   #prevOption = null;
 
-  constructor({selectContainer, selectModel}) {
+  constructor({selectContainer, selectModel, selectManager}) {
     this.#selectContainer = selectContainer;
     this.#selectModel = selectModel;
+    this.#selectManager = selectManager;
 
     this.#selectModel.addObserver(this.#handleModelEvent);
   }
@@ -28,10 +30,18 @@ export default class SelectPresenter {
 
   init() {
     this.#renderSelect();
+    this.#selectManager.hideOrigin(this.#selectComponent.element);
   }
 
   #handleClick = (evt) => {
     if (this.select.isDisabled || this.#optGroupComponents.has(evt.target.id) || getClosestDisabled(evt.target, evt.currentTarget)) {
+      return;
+    }
+
+    if (evt.target === this.#selectModel.origin) {
+      evt.preventDefault();
+      evt.currentTarget.focus();
+
       return;
     }
 

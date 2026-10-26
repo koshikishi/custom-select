@@ -10,6 +10,10 @@ export default class SelectModel extends Observable {
     this.#select = selectAdapter.select;
   }
 
+  get origin() {
+    return this.#selectAdapter.origin;
+  }
+
   get select() {
     return this.#select;
   }

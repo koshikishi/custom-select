@@ -3,10 +3,10 @@ import AbstractView from '../framework/view/abstract-view.js';
 
 const createSelectTemplate = (select) => {
   const {
-    id,
     options,
     activeDescendant,
     classList,
+    labelIds,
     tabIndex,
     isOpened,
     isMultiple,
@@ -27,7 +27,7 @@ const createSelectTemplate = (select) => {
     ${isMultiple ? 'aria-multiselectable="true"' : `aria-expanded="${String(isOpened)}" aria-controls="${dataListId}"`}
     ${isRequired ? 'aria-required="true"' : ''}
     ${(activeDescendant && (isMultiple || isOpened)) ? `aria-activedescendant="${activeDescendant.id}"` : ''}
-    aria-labelledby="${id}"
+    aria-labelledby="${labelIds.join(' ')}"
   >
     ${isMultiple ? '' : `<div class="custom-select__header">
       <div class="custom-select__header-label">${activeDescendant?.label ?? options[0].label}</div>
