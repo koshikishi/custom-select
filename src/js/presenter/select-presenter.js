@@ -304,5 +304,13 @@ export default class SelectPresenter {
     render(this.#selectComponent, this.#selectContainer);
 
     this.#renderOptions(this.select.options);
+
+    if (!this.select.isMultiple || this.select.size === 0) {
+      return;
+    }
+
+    const selectHeight = this.#optionComponents[0].element.offsetHeight * this.select.size;
+
+    this.#selectComponent.element.lastElementChild.style.maxHeight = `${selectHeight}px`;
   }
 }
