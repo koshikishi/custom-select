@@ -1,4 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import {ClassName} from '../const.js';
 
 const createOptionTemplate = (option) => {
   const {
@@ -13,8 +14,8 @@ const createOptionTemplate = (option) => {
     isTranslatable,
   } = option;
 
-  const selectedClassName = isSelected ? 'custom-select__option--selected' : '';
-  const disabledClassName = isDisabled ? 'custom-select__option--disabled' : '';
+  const selectedClassName = isSelected ? ClassName.OPTION_SELECTED : '';
+  const disabledClassName = isDisabled ? ClassName.OPTION_DISABLED : '';
 
   return `<li
     class="custom-select__option ${selectedClassName} ${disabledClassName}"
@@ -51,7 +52,7 @@ export default class OptionView extends AbstractView {
 
     this.#option = update;
 
-    this.element.classList.toggle('custom-select__option--selected', update.isSelected);
+    this.element.classList.toggle(ClassName.OPTION_SELECTED, update.isSelected);
     this.element.ariaSelected = String(update.isSelected);
   }
 }

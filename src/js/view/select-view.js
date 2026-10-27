@@ -1,5 +1,6 @@
 import {nanoid} from 'nanoid';
 import AbstractView from '../framework/view/abstract-view.js';
+import {BaseId, ClassName} from '../const.js';
 
 const createSelectTemplate = (select) => {
   const {
@@ -19,12 +20,13 @@ const createSelectTemplate = (select) => {
     isTranslatable,
     hasAutofocus,
   } = select;
-  const dataListId = `select-datalist-${nanoid()}`;
 
-  const openedClassName = isOpened ? 'custom-select--opened' : '';
-  const multipleClassName = isMultiple ? 'custom-select--multiple' : '';
-  const disabledClassName = isDisabled ? 'custom-select--disabled' : '';
-  const requiredClassName = isRequired ? 'custom-select--required' : '';
+  const dataListId = `${BaseId.DATALIST}-${nanoid()}`;
+
+  const openedClassName = isOpened ? ClassName.SELECT_OPENED : '';
+  const multipleClassName = isMultiple ? ClassName.SELECT_MULTIPLE : '';
+  const disabledClassName = isDisabled ? ClassName.SELECT_DISABLED : '';
+  const requiredClassName = isRequired ? ClassName.SELECT_REQUIRED : '';
 
   return `<div
     class="custom-select ${classList.join(' ')} ${openedClassName} ${multipleClassName} ${disabledClassName} ${requiredClassName}"
@@ -88,9 +90,9 @@ export default class SelectView extends AbstractView {
     this.element.setAttribute('aria-activedescendant', (update.isOpened || update.isMultiple) ? update.activeDescendant.id : '');
 
     if (!this.#select.isMultiple) {
-      const headerLabelElement = this.element.querySelector('.custom-select__header-label');
+      const headerLabelElement = this.element.querySelector(`.${ClassName.HEADER_LABEL}`);
 
-      this.element.classList.toggle('custom-select--opened', update.isOpened);
+      this.element.classList.toggle(ClassName.SELECT_OPENED, update.isOpened);
       headerLabelElement.textContent = update.activeDescendant.label;
     }
   }

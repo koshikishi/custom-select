@@ -1,4 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import {ClassName} from '../const.js';
 
 const createOptGroupTemplate = (optGroup) => {
   const {
@@ -11,7 +12,7 @@ const createOptGroupTemplate = (optGroup) => {
     isTranslatable,
   } = optGroup;
 
-  const disabledClassName = isDisabled ? 'custom-select__optgroup--disabled' : '';
+  const disabledClassName = isDisabled ? ClassName.OPTGROUP_DISABLED : '';
 
   return `<li
     class="custom-select__optgroup ${disabledClassName}"

@@ -1,4 +1,5 @@
 import {nanoid} from 'nanoid';
+import {BaseId} from '../const.js';
 
 export default class SelectAdapter {
   #origin = null;
@@ -41,7 +42,7 @@ export default class SelectAdapter {
     const adaptedOption = {};
     const optGroup = option.parentElement instanceof HTMLOptGroupElement ? this.#adaptOptGroup(option.parentElement, isDisabled) : null;
 
-    adaptedOption.id = `select-option-${nanoid()}`;
+    adaptedOption.id = `${BaseId.OPTION}-${nanoid()}`;
     adaptedOption.index = option.index;
     adaptedOption.optGroup = optGroup;
     adaptedOption.label = option.label;
@@ -64,7 +65,7 @@ export default class SelectAdapter {
 
     const adaptedOptGroup = {};
 
-    adaptedOptGroup.id = `select-optgroup-${nanoid()}`;
+    adaptedOptGroup.id = `${BaseId.OPTGROUP}-${nanoid()}`;
     adaptedOptGroup.label = optGroup.label;
     adaptedOptGroup.isDisabled = optGroup.disabled || isDisabled;
     adaptedOptGroup.title = optGroup.title;
