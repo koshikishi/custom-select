@@ -1,6 +1,6 @@
 {
   "name": "custom-select",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "The simple pet project for custom HTML <select> creation",
   "homepage": "https://koshikishi.github.io/custom-select",
   "bugs": {
