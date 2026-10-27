@@ -10,6 +10,10 @@
     color: var(--color-select-disabled);
   }
 
+  &--invalid {
+    border-color: var(--color-select-invalid);
+  }
+
   &:not(&--multiple) {
     &::before {
       content: "";
@@ -104,6 +108,12 @@
   .custom-select--multiple & {
     display: block;
     max-height: 112px;
+  }
+}
+
+.custom-select__optgroup {
+  &--disabled {
+    color: var(--color-select-disabled);
   }
 }
 

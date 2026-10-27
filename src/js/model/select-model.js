@@ -28,12 +28,19 @@ export default class SelectModel extends Observable {
 
     this.#select.selectedIndex = selectedIndex;
     this.#select.activeDescendant = activeDescendant;
+    this.#select.isInvalid = false;
 
     this._notify(updateType, eventType, this.#select);
   }
 
   toggleSelect(updateType, eventType, force) {
     this.#select.isOpened = force ?? !this.#select.isOpened;
+
+    this._notify(updateType, eventType, this.#select);
+  }
+
+  setValidity(updateType, eventType, isInvalid) {
+    this.#select.isInvalid = isInvalid;
 
     this._notify(updateType, eventType, this.#select);
   }

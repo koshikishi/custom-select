@@ -34,6 +34,7 @@ export default class SelectPresenter {
     this.#renderSelect();
     this.#selectManager.hideOrigin(this.#selectComponent.element);
 
+    this.#selectModel.origin.addEventListener('invalid', this.#invalidHandler);
     this.#selectModel.origin.form?.addEventListener('reset', this.#resetHandler);
   }
 
@@ -141,6 +142,12 @@ export default class SelectPresenter {
     this.#handleViewAction(UserAction.TOGGLE_SELECT, UpdateType.SELECT, EventType.FOCUSOUT, false);
   };
 
+  #invalidHandler = (evt) => {
+    evt.preventDefault();
+
+    this.#handleViewAction(UserAction.SET_VALIDITY, UpdateType.SELECT, EventType.INVALID, true);
+  };
+
   #resetHandler = () => {
     this.#handleViewAction(UserAction.SET_SELECTED, UpdateType.ALL, EventType.RESET, {
       selectedOptions: this.#initState.selectedOptions,
@@ -157,6 +164,10 @@ export default class SelectPresenter {
         break;
       case UserAction.TOGGLE_SELECT:
         this.#selectModel.toggleSelect(updateType, eventType, data);
+
+        break;
+      case UserAction.SET_VALIDITY:
+        this.#selectModel.setValidity(updateType, eventType, data);
 
         break;
     }

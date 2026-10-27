@@ -93,6 +93,7 @@ export default class SelectAdapter {
     adaptedSelect.isMultiple = select.multiple;
     adaptedSelect.isDisabled = select.disabled;
     adaptedSelect.isRequired = select.required;
+    adaptedSelect.isInvalid = false;
     adaptedSelect.title = select.title;
     adaptedSelect.isTranslatable = select.translate;
     adaptedSelect.lang = select.lang;

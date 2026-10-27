@@ -17,6 +17,7 @@ const createSelectTemplate = (select) => {
     isMultiple,
     isDisabled,
     isRequired,
+    isInvalid,
     isTranslatable,
     hasAutofocus,
   } = select;
@@ -27,9 +28,10 @@ const createSelectTemplate = (select) => {
   const multipleClassName = isMultiple ? ClassName.SELECT_MULTIPLE : '';
   const disabledClassName = isDisabled ? ClassName.SELECT_DISABLED : '';
   const requiredClassName = isRequired ? ClassName.SELECT_REQUIRED : '';
+  const invalidClassName = isInvalid ? ClassName.SELECT_INVALID : '';
 
   return `<div
-    class="custom-select ${classList.join(' ')} ${openedClassName} ${multipleClassName} ${disabledClassName} ${requiredClassName}"
+    class="custom-select ${classList.join(' ')} ${openedClassName} ${multipleClassName} ${disabledClassName} ${requiredClassName} ${invalidClassName}"
     ${style ? `style="${style}"` : ''}
     ${title ? `title="${title}"` : ''}
     ${lang ? `lang="${lang}"` : ''}
@@ -87,6 +89,7 @@ export default class SelectView extends AbstractView {
   updateElement(update) {
     this.#select = update;
 
+    this.element.classList.toggle(ClassName.SELECT_INVALID, update.isInvalid);
     this.element.setAttribute('aria-activedescendant', (update.activeDescendant && (update.isOpened || update.isMultiple)) ? update.activeDescendant.id : '');
 
     if (!this.#select.isMultiple) {

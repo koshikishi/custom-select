@@ -9,6 +9,7 @@ const ClassName = {
   SELECT_MULTIPLE: 'custom-select--multiple',
   SELECT_DISABLED: 'custom-select--disabled',
   SELECT_REQUIRED: 'custom-select--required',
+  SELECT_INVALID: 'custom-select--invalid',
   HEADER_LABEL: 'custom-select__header-label',
   OPTGROUP_DISABLED: 'custom-select__optgroup--disabled',
   OPTION_SELECTED: 'custom-select__option--selected',
@@ -18,6 +19,7 @@ const ClassName = {
 const UserAction = {
   SET_SELECTED: 'SET_SELECTED',
   TOGGLE_SELECT: 'TOGGLE_SELECT',
+  SET_VALIDITY: 'SET_VALIDITY',
 };
 
 const UpdateType = {
@@ -31,6 +33,7 @@ const EventType = {
   KEYDOWN: 'keydown',
   FOCUSOUT: 'focusout',
   RESET: 'reset',
+  INVALID: 'invalid',
 };
 
 const KeyValue = {
