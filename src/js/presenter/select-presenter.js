@@ -14,12 +14,14 @@ export default class SelectPresenter {
   #optGroupComponents = new Map();
   #optionComponents = [];
 
+  #initState = null;
   #prevOption = null;
 
   constructor({selectContainer, selectModel, selectManager}) {
     this.#selectContainer = selectContainer;
     this.#selectModel = selectModel;
     this.#selectManager = selectManager;
+    this.#initState = structuredClone(selectModel.select);
 
     this.#selectModel.addObserver(this.#handleModelEvent);
   }
@@ -31,6 +33,8 @@ export default class SelectPresenter {
   init() {
     this.#renderSelect();
     this.#selectManager.hideOrigin(this.#selectComponent.element);
+
+    this.#selectModel.origin.form?.addEventListener('reset', this.#resetHandler);
   }
 
   #handleClick = (evt) => {
@@ -135,6 +139,14 @@ export default class SelectPresenter {
     }
 
     this.#handleViewAction(UserAction.TOGGLE_SELECT, UpdateType.SELECT, EventType.FOCUSOUT, false);
+  };
+
+  #resetHandler = () => {
+    this.#handleViewAction(UserAction.SET_SELECTED, UpdateType.ALL, EventType.RESET, {
+      selectedOptions: this.#initState.selectedOptions,
+      activeDescendant: this.#initState.activeDescendant,
+      selectedIndex: this.#initState.selectedIndex,
+    });
   };
 
   #handleViewAction(actionType, updateType, eventType, data) {

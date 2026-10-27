@@ -30,6 +30,7 @@ const EventType = {
   CLICK: 'click',
   KEYDOWN: 'keydown',
   FOCUSOUT: 'focusout',
+  RESET: 'reset',
 };
 
 const KeyValue = {

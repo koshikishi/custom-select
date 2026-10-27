@@ -87,13 +87,13 @@ export default class SelectView extends AbstractView {
   updateElement(update) {
     this.#select = update;
 
-    this.element.setAttribute('aria-activedescendant', (update.isOpened || update.isMultiple) ? update.activeDescendant.id : '');
+    this.element.setAttribute('aria-activedescendant', (update.activeDescendant && (update.isOpened || update.isMultiple)) ? update.activeDescendant.id : '');
 
     if (!this.#select.isMultiple) {
       const headerLabelElement = this.element.querySelector(`.${ClassName.HEADER_LABEL}`);
 
       this.element.classList.toggle(ClassName.SELECT_OPENED, update.isOpened);
-      headerLabelElement.textContent = update.activeDescendant.label;
+      headerLabelElement.textContent = update.activeDescendant?.label ?? '';
     }
   }
 }

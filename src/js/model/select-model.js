@@ -1,4 +1,5 @@
 import Observable from '../framework/observable.js';
+import {EventType} from '../const.js';
 
 export default class SelectModel extends Observable {
   #selectAdapter = null;
@@ -19,7 +20,10 @@ export default class SelectModel extends Observable {
   }
 
   setSelected(updateType, eventType, {selectedOptions, activeDescendant, selectedIndex}) {
-    this.#selectAdapter.setSelected(Array.from(selectedOptions));
+    if (eventType !== EventType.RESET) {
+      this.#selectAdapter.setSelected(Array.from(selectedOptions));
+    }
+
     this.#select.options.forEach((option) => this.#toggleOption(option, selectedOptions.has(option)));
 
     this.#select.selectedIndex = selectedIndex;
