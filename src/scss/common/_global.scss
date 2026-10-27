@@ -64,3 +64,27 @@ a {
 code {
   color: var(--color-tertiary);
 }
+
+button {
+  padding: 5px 10px;
+  font: inherit;
+  font-weight: 500;
+  color: inherit;
+  background-color: var(--color-input-background);
+  border: 2px solid var(--color-border);
+  border-radius: 5px;
+
+  &:hover,
+  &:focus {
+    border-color: var(--color-black);
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-outline);
+  }
+
+  &:active {
+    border-color: var(--color-border);
+  }
+}
